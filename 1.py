@@ -13,3 +13,6 @@ res_2 = a * math.pi
 
 print("sum 1:", res_1)
 print("sum 2:", res_2)
+
+
+a = 333
