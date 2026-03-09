@@ -1,4 +1,4 @@
-class Product:
+class Item:
     def __init__(self, name, price, description="", dimensions=""):
         self.name = name
         self.price = price
@@ -6,37 +6,55 @@ class Product:
         self.dimensions = dimensions
 
     def __str__(self):
-        return f"{self.name} - {self.price} грн"
+        return f"{self.name}, price: {self.price}"
 
 
-class Customer:
+class User:
     def __init__(self, first_name, last_name, phone):
         self.first_name = first_name
         self.last_name = last_name
         self.phone = phone
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}, тел: {self.phone}"
+        return f"{self.first_name} {self.last_name}"
 
 
-class Order:
-    def __init__(self, customer):
-        self.customer = customer
-        self.items = {}  # словник {товар: кількість}
+class Purchase:
+    def __init__(self, user):
+        self.user = user
+        self.products = {}  # словник {Item: кількість}
 
-    def add_product(self, product, quantity=1):
-        if product in self.items:
-            self.items[product] += quantity
-        else:
-            self.items[product] = quantity
+    def add_item(self, item, cnt):
 
-    def total_price(self):
-        return sum(product.price * quantity for product, quantity in self.items.items())
+        self.products[item] = cnt
+
+    def get_total(self):
+        return sum(item.price * cnt for item, cnt in self.products.items())
 
     def __str__(self):
-        lines = [f"Замовлення для: {self.customer}"]
-        for product, quantity in self.items.items():
-            lines.append(f"{product} x {quantity}")
-        lines.append(f"Сумарна вартість: {self.total_price()} грн")
+        lines = [f"User: {self.user}", "Items:"]
+        for item, cnt in self.products.items():
+            lines.append(f"{item.name}: {cnt} pcs.")
         return "\n".join(lines)
 
+
+
+lemon = Item('lemon', 5, "yellow", "small")
+apple = Item('apple', 2, "red", "middle")
+
+print(lemon)  # lemon, price: 5
+print(apple)  # apple, price: 2
+
+buyer = User("Ivan", "Ivanov", "02628162")
+print(buyer)  # Ivan Ivanov
+
+cart = Purchase(buyer)
+cart.add_item(lemon, 4)
+cart.add_item(apple, 20)
+print(cart)
+print(cart.get_total())  # 60
+
+
+cart.add_item(apple, 10)
+print(cart)
+print(cart.get_total())  # 40
