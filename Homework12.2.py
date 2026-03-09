@@ -40,4 +40,3 @@ class Order:
         lines.append(f"Сумарна вартість: {self.total_price()} грн")
         return "\n".join(lines)
 
-__________
